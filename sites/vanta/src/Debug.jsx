@@ -1,0 +1,3 @@
+import React,{useEffect,useState} from 'react';
+import {Leva,useControls} from 'leva';
+export default function Debug({onChange}){const values=useControls('SEVEN / Scene',{intensity:{value:.3,min:0,max:1,step:.01}});const[stats,setStats]=useState({});useEffect(()=>onChange(values),[values.intensity]);useEffect(()=>{const t=setInterval(()=>setStats({...window.__SEVEN_RENDER_STATS}),600);return()=>clearInterval(t);},[]);return <><Leva collapsed titleBar={{title:'SEVEN / LAB'}}/><pre id="render-stats" style={{position:'fixed',bottom:12,right:12,zIndex:200,fontSize:10,background:'#080808e0',color:'#c7ff00',padding:12,pointerEvents:'none'}}>{JSON.stringify(stats,null,2)}</pre></>;}

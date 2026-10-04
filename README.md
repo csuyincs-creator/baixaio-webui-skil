@@ -34,9 +34,11 @@ npx serve .
 
 ```
 sites/
-├─ burnclub/        燃社官网 → https://burnclub-sigma.vercel.app（Vercel 项目 Root Directory = sites/burnclub）
-└─ <新站>/           新站加入：写好代码 → push → Vercel Import 本仓库 → Root Directory 指向该文件夹
+├─ burnclub/        燃社官网 → https://burnclub-sigma.vercel.app（Root Directory = sites/burnclub，Framework Other，无构建）
+└─ vanta/           VANTA® 机能服饰官网（Root Directory = sites/vanta，Framework Vite：`npm run build` → `dist`）
 ```
+
+新站加入：写好代码 → push → Vercel Import 本仓库 → Root Directory 指向该文件夹。
 
 ### burnclub 站点结构
 
@@ -53,3 +55,18 @@ sites/burnclub/
 ```
 
 注意：本地 `vercel` 命令手动部署时，须 `cd sites/burnclub` 后执行。
+
+### vanta 站点结构（需要构建，与 burnclub 不同）
+
+Vite 7 + React 19 + Three.js/R3F + GSAP/Lenis/Barba；本地开发：
+
+```bash
+cd sites/vanta
+npm install        # 首次
+npm run dev        # http://127.0.0.1:5173
+npm run build      # 产物在 dist/
+```
+
+Vercel 部署：Import 本仓库 → Root Directory 填 `sites/vanta` → Framework Preset 选 **Vite**（会自动识别：Build Command `npm run build`，Output Directory `dist`）→ Deploy。`vercel.json` 已配置带 hash 的 `/assets/*` 长缓存（immutable），HTML 不缓存；未开 cleanUrls，`/field-notes.html` 链接保持原样。
+
+注意：本地 `vercel` 命令手动部署时，同样须 `cd sites/vanta` 后执行（在仓库根执行会和 Root Directory 冲突）；日常走 `git push` 自动部署则无此问题。
