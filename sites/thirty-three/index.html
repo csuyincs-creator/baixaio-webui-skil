@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THIRTY-THREE RECORDS — 33⅓ 独立唱片厂牌</title>
+<meta name="description" content="THIRTY-THREE RECORDS — independent record label. Heavyweight vinyl. Slow spin, long play. 黑胶慢转,声音长存。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23ff2b1a'/%3E%3Ctext x='32' y='44' font-family='Arial Black' font-size='30' font-weight='900' text-anchor='middle' fill='%230c0c0c'%3E33%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"></noscript>
+
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+
+<style>
+/* ============================================================
+   THIRTY-THREE RECORDS — award-grade single page
+   tokens
+============================================================ */
+:root{
+  --black:#0c0c0c; --ink:#141414; --paper:#f2efe8; --red:#ff2b1a;
+  --cobalt:#1f3aff; --acid:#e6ff2e;
+  --grey:#87847c; --grey-d:#55524c; --line:rgba(242,239,232,.14); --line-d:rgba(12,12,12,.16);
+  --display:'Anton','Arial Black',Impact,'Noto Sans SC',sans-serif;
+  --body:'Archivo','Helvetica Neue','Noto Sans SC',Arial,sans-serif;
+  --mono:'Space Mono','Courier New',monospace;
+  --pad:clamp(20px,4.5vw,72px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{overflow-x:clip}
+body{
+  background:var(--black); color:var(--paper);
+  font-family:var(--body); font-size:16px; line-height:1.55;
+  -webkit-font-smoothing:antialiased; overscroll-behavior-y:none;
+}
+::selection{background:var(--red);color:var(--paper)}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+section{scroll-margin-top:84px;position:relative}
+.mono{font-family:var(--mono)}
+.wrap{max-width:1560px;margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+
+/* fraction component — 33⅓ */
+.frac{display:inline-flex;flex-direction:column;align-items:center;line-height:.78;vertical-align:.12em;transform:translateY(-.14em)}
+.frac .n{border-bottom:.13em solid currentColor;padding:0 .1em .04em}
+.frac .d{padding:.04em .1em 0}
+
+/* ============================================================
+   fixed fx layers
+============================================================ */
+#gl{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.grain{position:fixed;inset:-10%;width:120%;height:120%;z-index:88;pointer-events:none;opacity:.07;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1.2s steps(6) infinite}
+@keyframes grain{
+  0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}
+  60%{transform:translate(-2%,-2%)}80%{transform:translate(3%,2%)}100%{transform:translate(0,0)}}
+.vignette{position:fixed;inset:0;z-index:87;pointer-events:none;
+  background:radial-gradient(120% 95% at 50% 42%,transparent 58%,rgba(0,0,0,.42) 100%)}
+
+/* cursor */
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;z-index:99;pointer-events:none;border-radius:50%;
+  transform:translate(-50%,-50%);display:none}
+.cursor-dot{width:8px;height:8px;background:var(--red)}
+.cursor-ring{width:38px;height:38px;border:1px solid #fff;mix-blend-mode:difference;
+  transition:width .35s cubic-bezier(.2,.8,.2,1),height .35s cubic-bezier(.2,.8,.2,1),background .3s}
+body.cur-hover .cursor-ring{width:64px;height:64px;background:rgba(255,255,255,.08)}
+body.cur-down .cursor-dot{transform:translate(-50%,-50%) scale(.55)}
+@media (pointer:fine){ .cursor-dot,.cursor-ring{display:block} }
+@media (pointer:fine){ body{cursor:none} a,button,input{cursor:none} }
+@media (hover:none),(pointer:coarse){ .cursor-dot,.cursor-ring{display:none!important} }
+
+/* ============================================================
+   preloader
+============================================================ */
+#preloader{position:fixed;inset:0;z-index:200;background:var(--black);display:flex;align-items:center;justify-content:center;
+  animation:pre-safe .7s ease 8s forwards}
+@keyframes pre-safe{to{opacity:0;visibility:hidden}}
+.pre-center{text-align:center}
+.pre-logo{font-family:var(--display);font-size:clamp(5rem,14vw,11rem);line-height:1;color:var(--paper);letter-spacing:.01em}
+.pre-logo .red{color:var(--red)}
+.pre-word{font-family:var(--mono);font-size:12px;letter-spacing:.42em;color:var(--grey);margin-top:14px;text-transform:uppercase}
+.pre-count{font-family:var(--display);font-size:clamp(2rem,5vw,3.4rem);color:var(--red);margin-top:34px}
+.pre-bar{width:min(320px,60vw);height:2px;background:rgba(242,239,232,.14);margin:18px auto 0;overflow:hidden}
+.pre-bar i{display:block;height:100%;width:0%;background:var(--red)}
+
+/* ============================================================
+   nav
+============================================================ */
+.nav{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;
+  padding:0 var(--pad);height:72px;border-bottom:1px solid var(--line);
+  background:rgba(12,12,12,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:22px;letter-spacing:.02em}
+.logo .mark{color:var(--red);display:inline-flex;align-items:baseline;gap:2px}
+.logo .mark .frac{font-size:.52em}
+.logo .word{font-size:.78em;letter-spacing:.18em}
+.nav-links{display:flex;gap:clamp(18px,3vw,44px)}
+.nav-links a{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:rgba(242,239,232,.72);
+  position:relative;padding:6px 0}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--red);
+  transform:scaleX(0);transform-origin:right;transition:transform .45s cubic-bezier(.76,0,.24,1)}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav-right{display:flex;align-items:center;gap:clamp(14px,2vw,26px)}
+.cart{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:rgba(242,239,232,.72)}
+.cart b{color:var(--red)}
+.snd{font-family:var(--mono);font-size:11px;letter-spacing:.14em;display:inline-flex;align-items:center;gap:7px;
+  color:rgba(242,239,232,.72);padding:8px 2px}
+.snd i{width:7px;height:7px;border-radius:50%;background:#3a3a3a;transition:background .3s,box-shadow .3s}
+.snd.on i{background:var(--red);box-shadow:0 0 10px var(--red)}
+
+/* burger + mobile menu */
+.burger{display:none;width:44px;height:44px;position:relative;background:none;border:none;cursor:pointer;z-index:95}
+.burger::before,.burger::after,.burger i{content:"";position:absolute;left:9px;right:9px;height:2px;background:var(--paper);transition:transform .35s cubic-bezier(.76,0,.24,1),opacity .3s}
+.burger::before{top:14px}.burger i{top:21px}.burger::after{top:28px}
+body.menu-open .burger::before{transform:translateY(7px) rotate(45deg)}
+body.menu-open .burger i{opacity:0}
+body.menu-open .burger::after{transform:translateY(-7px) rotate(-45deg)}
+.mnav{position:fixed;inset:0;z-index:79;background:var(--black);display:flex;flex-direction:column;justify-content:center;gap:10px;
+  padding:0 var(--pad);visibility:hidden;opacity:0;transition:opacity .45s ease,visibility .45s}
+.mnav a{font-family:var(--display);font-size:clamp(3rem,14vw,5.5rem);text-transform:uppercase;line-height:1.02;
+  color:var(--paper);display:flex;align-items:baseline;gap:16px;transition:color .3s,transform .4s}
+.mnav a small{font-family:var(--mono);font-size:12px;letter-spacing:.24em;color:var(--red)}
+.mnav a:hover{color:var(--red);transform:translateX(8px)}
+.mnav .mnav-foot{position:absolute;left:var(--pad);right:var(--pad);bottom:36px;display:flex;flex-wrap:wrap;gap:10px 26px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:rgba(242,239,232,.55);text-transform:uppercase}
+.mnav .mnav-foot b{color:var(--red);font-weight:400}
+body.menu-open .mnav{visibility:visible;opacity:1}
+body.menu-open{overflow:hidden}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-weight:700;font-size:13px;
+  letter-spacing:.14em;text-transform:uppercase;padding:15px 28px;border:1px solid var(--paper);
+  color:var(--paper);position:relative;overflow:hidden;transition:color .35s;border-radius:2px}
+.btn::before{content:"";position:absolute;inset:0;background:var(--paper);transform:translateY(101%);
+  transition:transform .45s cubic-bezier(.76,0,.24,1);z-index:-1}
+.btn:hover{color:var(--black)} .btn:hover::before{transform:translateY(0)}
+.btn-red{background:var(--red);border-color:var(--red);color:var(--black)}
+.btn-red::before{background:var(--paper)}
+.btn-sm{padding:10px 18px;font-size:11px}
+.btn-black{background:var(--black);border-color:var(--black);color:var(--paper)}
+.btn-black::before{background:var(--paper)}
+
+/* ============================================================
+   hero
+============================================================ */
+.hero{position:relative;z-index:2;min-height:100vh;min-height:100svh;display:grid;align-content:center;
+  padding-top:110px;padding-bottom:40px}
+.hero-inner{position:relative;z-index:3}
+.hero-meta{display:flex;flex-wrap:wrap;gap:14px 34px;font-family:var(--mono);font-size:11px;letter-spacing:.22em;
+  text-transform:uppercase;color:rgba(242,239,232,.6);margin-bottom:clamp(24px,4vh,48px)}
+.nowplaying{display:inline-flex;align-items:center;gap:10px;color:var(--paper)}
+.eq{width:20px;height:13px;display:inline-flex;align-items:flex-end;gap:2px}
+.eq i{flex:1;background:var(--red);height:30%;animation:eq .8s ease-in-out infinite alternate}
+.eq i:nth-child(2){animation-delay:.15s}.eq i:nth-child(3){animation-delay:.3s}
+.eq i:nth-child(4){animation-delay:.1s}.eq i:nth-child(5){animation-delay:.22s}
+@keyframes eq{to{height:100%}}
+.hero-title{font-family:var(--display);font-weight:400;font-size:clamp(4.8rem,22.5vw,15.5rem);line-height:.86;
+  letter-spacing:.005em;text-transform:uppercase}
+.hero-title .line{display:block;white-space:nowrap}
+.hero-title .ghost{color:transparent;-webkit-text-stroke:2px var(--paper)}
+.ch{display:inline-block;will-change:transform}
+.rpm-badge{display:inline-block;vertical-align:.35em;margin-left:.06em;background:var(--red);color:var(--black);
+  font-family:var(--mono);font-weight:700;font-size:clamp(11px,1.5vw,20px);letter-spacing:.16em;
+  padding:.5em .7em;transform:rotate(-6deg);-webkit-text-stroke:0}
+.hero-foot{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:28px;
+  margin-top:clamp(30px,5vh,60px)}
+.hero-sub{max-width:44ch;color:rgba(242,239,232,.78);font-size:clamp(15px,1.25vw,19px)}
+.hero-sub b{color:var(--paper)}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap}
+.scroll-hint{position:absolute;left:var(--pad);bottom:26px;display:flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:rgba(242,239,232,.78);text-transform:uppercase;z-index:3}
+.scroll-hint::after{content:"";width:1px;height:44px;background:linear-gradient(var(--red),transparent);
+  animation:drop 1.6s cubic-bezier(.76,0,.24,1) infinite}
+@keyframes drop{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}
+  55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+/* god-ray fake volumetric */
+.godray{position:absolute;top:-12%;right:8%;width:46vw;height:90vh;z-index:1;pointer-events:none;opacity:.5;
+  background:linear-gradient(112deg,transparent 42%,rgba(242,239,232,.055) 50%,transparent 58%);
+  filter:blur(6px);transform-origin:top center;animation:sway 11s ease-in-out infinite alternate}
+@keyframes sway{from{transform:rotate(-2.4deg)}to{transform:rotate(2.2deg)}}
+/* css fallback vinyl (no webgl) */
+.fallback-vinyl{display:none;position:absolute;z-index:2;right:-12vw;top:50%;translate:0 -50%;
+  width:min(74vh,52vw);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 36% 34%,rgba(255,255,255,.07),transparent 42%),
+    repeating-radial-gradient(circle,#0a0a0a 0 2px,#181818 2px 4px);
+  animation:spin 16s linear infinite}
+.fallback-vinyl::before{content:"";position:absolute;inset:31%;border-radius:50%;background:var(--red)}
+.fallback-vinyl::after{content:"33⅓";position:absolute;inset:0;display:grid;place-items:center;
+  font-family:var(--display);font-size:clamp(2rem,6vw,4.4rem);color:var(--black)}
+.no-webgl .fallback-vinyl{display:block}
+.no-webgl #gl{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ============================================================
+   marquee
+============================================================ */
+.marquee{position:relative;z-index:3;background:var(--red);color:var(--black);overflow:hidden;
+  border-top:1px solid var(--black);border-bottom:1px solid var(--black)}
+.marquee-track{display:flex;width:max-content;will-change:transform}
+.mq-set{display:flex;align-items:center;gap:2.6rem;padding:13px 1.3rem 13px 1.3rem;white-space:nowrap}
+.mq-set span{font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.18em;text-transform:uppercase}
+.mq-set i{font-style:normal;font-size:15px}
+
+/* ============================================================
+   section scaffold
+============================================================ */
+.sec{padding:clamp(84px,11vh,150px) 0}
+.sec-dark{background:var(--black);color:var(--paper);z-index:3}
+.sec-paper{background:var(--paper);color:var(--black);z-index:3}
+.sec-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px 40px;
+  border-top:2px solid currentColor;padding-top:26px;margin-bottom:clamp(40px,6vh,72px)}
+.sec-head h2{font-family:var(--display);font-size:clamp(2.9rem,7vw,7.2rem);line-height:.92;text-transform:uppercase;font-weight:400}
+.sec-head h2 .ghost{color:transparent;-webkit-text-stroke:2px currentColor}
+.sec-head h2 .red{color:var(--red)}
+.sec-dark .sec-head h2 .ghost{-webkit-text-stroke:2.5px var(--paper)}
+.sec-paper .sec-head h2 .ghost{-webkit-text-stroke:2px var(--black)}
+.sec-idx{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--grey-d)}
+.sec-dark .sec-idx{color:rgba(242,239,232,.5)}
+.sec-link{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;
+  color:var(--red);border-bottom:2px solid var(--red);padding-bottom:4px;transition:background .3s,color .3s}
+.sec-link:hover{background:var(--red);color:var(--black)}
+
+/* ============================================================
+   releases
+============================================================ */
+.rel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(18px,2.2vw,32px)}
+.release{position:relative}
+.sleeve-wrap{position:relative}
+.sleeve-wrap .vinyl-disc{position:absolute;top:50%;right:3%;width:88%;aspect-ratio:1;transform:translateY(-50%);
+  z-index:0;transition:transform .55s cubic-bezier(.22,.9,.3,1.2)}
+.release:hover .vinyl-disc{transform:translateY(-50%) translateX(17%) rotate(28deg)}
+.sleeve{position:relative;z-index:1;aspect-ratio:1;overflow:hidden;background:var(--tone,#333);color:var(--tone-ink,#fff);
+  box-shadow:0 30px 60px -30px rgba(0,0,0,.5)}
+.sleeve img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  mix-blend-mode:multiply;filter:grayscale(1) contrast(1.08) brightness(1.02);transform:scale(1.16);will-change:transform}
+.sleeve.dark img{mix-blend-mode:screen;filter:grayscale(1) contrast(1.2) brightness(.92)}
+.sleeve .cat{position:absolute;top:12px;left:12px;background:#0c0c0c;color:var(--paper);
+  border:1px solid rgba(242,239,232,.35);font-family:var(--mono);font-size:11px;letter-spacing:.12em;padding:5px 9px;z-index:2}
+.sleeve .init{position:absolute;right:2%;bottom:-4%;font-family:var(--display);font-size:34cqw;line-height:1;
+  color:transparent;-webkit-text-stroke:2px var(--tone-ink,#fff);opacity:.55;z-index:2;pointer-events:none}
+.sleeve .mark33{position:absolute;left:12px;bottom:12px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+  border:1px solid var(--tone-ink,#fff);padding:4px 8px;z-index:2;opacity:.85}
+.play{position:absolute;right:14px;bottom:14px;z-index:3;width:48px;height:48px;border-radius:50%;
+  background:var(--black);color:var(--paper);border:1px solid rgba(242,239,232,.5);display:grid;place-items:center;
+  font-size:13px;transition:transform .35s cubic-bezier(.34,1.56,.64,1),background .3s,color .3s;padding-left:3px}
+.release:hover .play,.goods:hover .play{transform:scale(1.12)}
+.play:hover{background:var(--red);color:var(--black);border-color:var(--red)}
+.rel-meta{margin-top:16px}
+.tagrow{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--grey-d);margin-bottom:8px}
+.rel-meta h3{font-family:var(--display);font-size:clamp(1.4rem,1.7vw,1.9rem);letter-spacing:.02em;text-transform:uppercase;line-height:1}
+.rel-artist{font-size:14px;color:var(--grey-d);margin-top:6px}
+.buyrow{display:flex;justify-content:space-between;align-items:center;margin-top:12px;
+  border-top:1px solid var(--line-d);padding-top:12px}
+.price{font-family:var(--mono);font-weight:700;font-size:15px}
+.buylink{font-family:var(--mono);font-size:11px;letter-spacing:.16em;font-weight:700;color:var(--red);
+  text-transform:uppercase;position:relative}
+.buylink::after{content:"";position:absolute;left:0;bottom:-3px;width:100%;height:1px;background:var(--red);
+  transition:transform .4s cubic-bezier(.76,0,.24,1);transform-origin:right}
+.buylink:hover::after{transform:scaleX(.3);transform-origin:left}
+
+/* procedural mini vinyl (css) */
+.vinyl-disc{border-radius:50%;container-type:inline-size;
+  background:radial-gradient(circle at 36% 34%,rgba(255,255,255,.08),transparent 42%),
+    repeating-radial-gradient(circle,#0a0a0a 0 2px,#1a1a1a 2px 4px)}
+.vinyl-disc::before{content:"";position:absolute;inset:31.5%;border-radius:50%;background:var(--red)}
+.vinyl-disc::after{content:"";position:absolute;inset:48.4%;border-radius:50%;background:var(--paper)}
+
+/* ============================================================
+   roster
+============================================================ */
+.roster-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(16px,2vw,28px)}
+.artist{position:relative;background:#161616;border:1px solid rgba(242,239,232,.1)}
+.a-photo{position:relative;aspect-ratio:3/4;overflow:hidden;display:grid;place-items:center;background:#191919}
+.a-photo::before{content:"";position:absolute;inset:0;z-index:1;opacity:.5;
+  background-image:radial-gradient(rgba(242,239,232,.16) 1px,transparent 1.4px);background-size:9px 9px}
+.a-init{position:absolute;font-family:var(--display);font-size:clamp(4rem,7vw,7rem);color:transparent;
+  -webkit-text-stroke:1.5px rgba(242,239,232,.5);z-index:0}
+.a-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;
+  filter:grayscale(1) contrast(1.18) brightness(.92);transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.a-duo{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;transition:opacity .5s;
+  background:var(--red);
+  -webkit-mask-image:radial-gradient(circle 220px at var(--mx,-500px) var(--my,-500px),#000 0 55%,transparent 100%);
+  mask-image:radial-gradient(circle 220px at var(--mx,-500px) var(--my,-500px),#000 0 55%,transparent 100%)}
+.a-duo img{width:100%;height:100%;object-fit:cover;mix-blend-mode:multiply;filter:grayscale(1) contrast(1.2) brightness(1.05)}
+.artist:hover .a-duo{opacity:1}
+.artist:hover .a-photo img{transform:scale(1.05)}
+.a-meta{padding:16px 16px 18px;border-top:1px solid rgba(242,239,232,.1)}
+.a-meta h3{font-family:var(--display);font-size:1.45rem;letter-spacing:.03em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.a-meta h3 .cn{font-size:.85rem;color:var(--grey);letter-spacing:.2em}
+.a-meta .genre{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:rgba(242,239,232,.55);margin-top:6px;text-transform:uppercase}
+.a-count{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-family:var(--mono);
+  font-size:11px;letter-spacing:.14em;color:var(--red);text-transform:uppercase}
+.a-count .arr{opacity:0;transform:translateX(-8px);transition:.4s}
+.artist:hover .a-count .arr{opacity:1;transform:none}
+.roster-cta{margin-top:clamp(28px,4vh,44px);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.roster-cta p{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:rgba(242,239,232,.5);text-transform:uppercase}
+
+/* ============================================================
+   merch
+============================================================ */
+.goods-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2.2vw,32px)}
+.goods .g-art{position:relative;aspect-ratio:1;overflow:hidden;display:grid;place-items:center}
+.g-slipmat{background:#101010}
+.g-slipmat .vinyl-disc{position:relative;width:68%;aspect-ratio:1}
+.g-slipmat .g-word{position:absolute;left:14px;top:12px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:rgba(242,239,232,.6)}
+.g-tee{background:var(--red);color:var(--black)}
+.g-tee .big-frac{font-family:var(--display);font-size:9cqw;line-height:1;display:inline-flex}
+.g-tee .g-word{position:absolute;left:14px;top:12px;font-family:var(--mono);font-size:11px;letter-spacing:.16em}
+.g-tee .g-note{position:absolute;right:14px;bottom:12px;font-family:var(--mono);font-size:10px;letter-spacing:.14em}
+.g-tote{background:var(--paper);color:var(--black);border:2px solid var(--black)}
+.g-tote .g-word{position:absolute;left:14px;top:12px;font-family:var(--mono);font-size:11px;letter-spacing:.16em}
+.g-tote .bar{width:58%;height:26%;background:repeating-linear-gradient(90deg,var(--black) 0 2px,transparent 2px 6px,var(--black) 6px 9px,transparent 9px 12px)}
+.g-tote .g-code{position:absolute;right:14px;bottom:12px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--red);font-weight:700}
+.goods .g-meta{margin-top:16px}
+.goods h3{font-family:var(--display);font-size:1.35rem;text-transform:uppercase;letter-spacing:.02em}
+.goods .g-sub{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--grey-d);margin-top:5px;text-transform:uppercase}
+.g-buyrow{display:flex;justify-content:space-between;align-items:center;margin-top:12px;border-top:1px solid var(--line-d);padding-top:12px}
+.g-tag{font-family:var(--mono);font-size:10px;letter-spacing:.14em;background:var(--red);color:var(--black);padding:3px 7px;margin-left:8px;vertical-align:2px}
+
+/* ============================================================
+   pressing
+============================================================ */
+.pressing{background:var(--red);color:var(--black);z-index:3;overflow:hidden}
+.pressing .wrap{position:relative;z-index:1}
+.press-vinyl{position:absolute;right:-5%;top:50%;transform:translateY(-50%);width:clamp(240px,30vw,430px);aspect-ratio:1;z-index:0}
+.press-vinyl .vinyl-disc{position:relative;width:100%;aspect-ratio:1;animation:spin 14s linear infinite}
+.press-vinyl .vinyl-disc::before{background:var(--black)}
+.press-vinyl .vinyl-disc::after{background:var(--red)}
+@media (max-width:760px){.press-vinyl{display:none}}
+.pressing .ghost{color:transparent;-webkit-text-stroke:2px var(--black)}
+.press-title{font-family:var(--display);font-size:clamp(3rem,9vw,9.5rem);line-height:.9;text-transform:uppercase}
+.press-title span{display:block}
+.press-sub{font-family:var(--mono);font-size:13px;letter-spacing:.16em;margin-top:26px;text-transform:uppercase}
+.press-form{display:flex;gap:14px;margin-top:38px;max-width:720px;flex-wrap:wrap}
+.press-form input{flex:1;min-width:240px;background:transparent;border:2px solid var(--black);color:var(--black);
+  font-family:var(--mono);font-size:14px;letter-spacing:.1em;padding:16px 18px;border-radius:2px;outline:none}
+.press-form input::placeholder{color:rgba(12,12,12,.55)}
+.press-form input:focus{background:rgba(12,12,12,.06)}
+.press-note{font-family:var(--mono);font-size:11px;letter-spacing:.18em;margin-top:20px;color:rgba(12,12,12,.7);text-transform:uppercase}
+.press-star{position:absolute;font-size:clamp(3rem,7vw,6rem);color:var(--black);opacity:.9;animation:spin 14s linear infinite}
+
+/* ============================================================
+   footer
+============================================================ */
+.footer{position:relative;z-index:3;background:var(--black);color:var(--paper);overflow:hidden}
+.foot-manifesto{border-bottom:1px solid var(--line);padding:clamp(44px,6vh,72px) 0}
+.foot-manifesto p{font-family:var(--display);font-size:clamp(1.5rem,3.4vw,3rem);line-height:1.14;text-transform:uppercase;max-width:22ch}
+.foot-manifesto .red{color:var(--red)}
+.foot-grid{display:grid;grid-template-columns:1.3fr repeat(3,1fr);gap:40px;padding:clamp(44px,6vh,72px) 0}
+.foot-brand .logo{font-size:26px}
+.foot-brand p{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:rgba(242,239,232,.5);margin-top:14px;text-transform:uppercase}
+.foot-col h4{font-family:var(--mono);font-size:11px;letter-spacing:.24em;color:var(--red);text-transform:uppercase;margin-bottom:18px}
+.foot-col a{display:block;font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;color:rgba(242,239,232,.72);padding:6px 0;transition:color .3s,transform .3s}
+.foot-col a:hover{color:var(--paper);transform:translateX(6px)}
+.foot-col a .tick{color:var(--red);margin-right:8px;font-size:11px}
+.foot-bottom{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;
+  border-top:1px solid var(--line);padding:22px 0 26px}
+.foot-bottom span{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:rgba(242,239,232,.62);text-transform:uppercase}
+.barcode{width:130px;height:40px;background:repeating-linear-gradient(90deg,
+  rgba(242,239,232,.85) 0 2px,transparent 2px 5px,rgba(242,239,232,.85) 5px 6px,transparent 6px 11px,
+  rgba(242,239,232,.85) 11px 14px,transparent 14px 17px)}
+.wm{position:absolute;left:50%;bottom:-.24em;transform:translateX(-50%);z-index:0;pointer-events:none;user-select:none;
+  font-family:var(--display);font-size:clamp(10rem,30vw,26rem);line-height:.8;color:transparent;
+  -webkit-text-stroke:1px rgba(242,239,232,.13);white-space:nowrap}
+.wm .red{-webkit-text-stroke:1px rgba(255,43,26,.4)}
+
+/* rgb split hover for display titles */
+.rgb{transition:text-shadow .3s}
+.rgb:hover{text-shadow:3px 0 rgba(255,43,26,.75),-3px 0 rgba(31,58,255,.75)}
+
+/* ============================================================
+   responsive
+============================================================ */
+@media (max-width:1100px){
+  .rel-grid{grid-template-columns:repeat(2,1fr)}
+  .roster-grid{grid-template-columns:repeat(2,1fr)}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  .nav-links{display:none}
+  .cart{display:none}
+  .burger{display:block}
+  .hero{padding-top:96px}
+  .hero-foot{flex-direction:column;align-items:flex-start}
+  .goods-grid{grid-template-columns:1fr}
+  .rel-grid{grid-template-columns:1fr}
+  .roster-grid{grid-template-columns:1fr}
+  .scroll-hint{display:none}
+  .foot-grid{grid-template-columns:1fr}
+}
+@media (max-width:540px){
+  .snd{display:none}
+  .rpm-badge{font-size:10px;padding:.45em .55em}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s !important;transition-duration:.001s !important}
+}
+</style>
+<noscript><style>#preloader{display:none}.cursor-dot,.cursor-ring{display:none!important}</style></noscript>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+<div class="cursor-dot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"></div>
+
+<!-- preloader -->
+<div id="preloader" aria-hidden="true">
+  <div class="pre-center">
+    <div class="pre-logo">33<span class="red">⅓</span></div>
+    <div class="pre-word">Thirty-Three Records</div>
+    <div class="pre-count" id="preCount">000</div>
+    <div class="pre-bar"><i id="preBar"></i></div>
+  </div>
+</div>
+
+<!-- webgl canvas -->
+<canvas id="gl" aria-hidden="true"></canvas>
+
+<!-- nav -->
+<nav class="nav" id="nav">
+  <a class="logo" href="#hero" data-magnetic>
+    <span class="mark">33<span class="frac"><span class="n">1</span><span class="d">3</span></span></span>
+    <span class="word">RECORDS</span>
+  </a>
+  <div class="nav-links">
+    <a href="#releases">Releases</a>
+    <a href="#roster">Artists</a>
+    <a href="#merch">Merch</a>
+    <a href="#pressing">Pressing List</a>
+  </div>
+  <div class="nav-right">
+    <button class="snd" id="sndBtn" aria-label="切换音效" aria-pressed="false"><i></i><span>SOUND OFF</span></button>
+    <span class="cart">CART <b>(0)</b></span>
+    <a class="btn btn-red btn-sm" href="#releases" data-magnetic>▶ LISTEN</a>
+    <button class="burger" id="burgerBtn" aria-label="打开菜单" aria-expanded="false"><i></i></button>
+  </div>
+</nav>
+
+<!-- mobile menu -->
+<div class="mnav" id="mnav" aria-hidden="true">
+  <a href="#releases"><small>01</small>Releases</a>
+  <a href="#roster"><small>02</small>Artists</a>
+  <a href="#merch"><small>03</small>Merch</a>
+  <a href="#pressing"><small>04</small>Pressing List</a>
+  <div class="mnav-foot" aria-hidden="true">
+    <span>33 1/3 RPM</span><span>Shanghai / Berlin</span><b>demos@thirty-three.rec</b>
+  </div>
+</div>
+
+<!-- hero -->
+<header class="hero" id="hero">
+  <div class="godray" aria-hidden="true"></div>
+  <div class="fallback-vinyl" aria-hidden="true"></div>
+  <div class="wrap hero-inner">
+    <div class="hero-meta" id="heroMeta">
+      <span>Independent Record Label</span>
+      <span>EST. 2019 · Shanghai</span>
+      <span class="nowplaying"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>NOW PLAYING — 33-019 “SIDE B”</span>
+    </div>
+    <h1 class="hero-title" id="heroTitle" aria-label="THIRTY-THREE">
+      <span class="line"><span class="split solid">THIRTY-</span></span>
+      <span class="line"><span class="split ghost">THREE</span><span class="rpm-badge">33 1/3 RPM</span></span>
+    </h1>
+    <div class="hero-foot" id="heroFoot">
+      <p class="hero-sub"><b>Heavyweight vinyl, pressed loud.</b><br>黑胶慢转，声音长存 — no algorithms, just stereo.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-red" href="#releases" data-magnetic>▶ Listen Now</a>
+        <a class="btn" href="#releases" data-magnetic>Browse Releases ↓</a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll — 慢转开始</div>
+</header>
+
+<!-- marquee -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="mqTrack">
+    <div class="mq-set">
+      <span>New LP “SIDE B” — Out Now</span><i>★</i>
+      <span>Limited First Pressing · 180G</span><i>★</i>
+      <span>33 1/3 RPM — Slow Spin, Long Play</span><i>★</i>
+      <span>满 ¥200 免运费</span><i>★</i>
+      <span> Worldwide Shipping</span><i>★</i>
+    </div>
+    <div class="mq-set">
+      <span>New LP “SIDE B” — Out Now</span><i>★</i>
+      <span>Limited First Pressing · 180G</span><i>★</i>
+      <span>33 1/3 RPM — Slow Spin, Long Play</span><i>★</i>
+      <span>满 ¥200 免运费</span><i>★</i>
+      <span> Worldwide Shipping</span><i>★</i>
+    </div>
+  </div>
+</div>
+
+<main>
+<!-- releases -->
+<section class="sec sec-paper" id="releases">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="rgb" aria-label="Latest Releases"><span class="st">Latest</span> <span class="ghost st">Releases</span></h2>
+      <span class="sec-idx">01 / 33-016 → 33-019 · 2026</span>
+      <a class="sec-link" href="#pressing">View All →</a>
+    </div>
+    <div class="rel-grid" id="relGrid">
+      <article class="release" data-reveal>
+        <div class="sleeve-wrap">
+          <div class="vinyl-disc" aria-hidden="true"></div>
+          <div class="sleeve" style="--tone:#ff2b1a;--tone-ink:#0c0c0c">
+            <span class="cat">33-019</span>
+            <img src="https://picsum.photos/seed/33-019/720/720?grayscale" alt="SIDE B 专辑封面" loading="lazy" onerror="this.remove()">
+            <span class="init" aria-hidden="true">SB</span>
+            <span class="mark33">33⅓ · SIDE A</span>
+            <button class="play" aria-label="试听 SIDE B">▶</button>
+          </div>
+        </div>
+        <div class="rel-meta">
+          <div class="tagrow"><span>LP · 180G</span><span>2026.09.26</span></div>
+          <h3>SIDE B</h3>
+          <p class="rel-artist">LU YAN 陆延</p>
+          <div class="buyrow"><span class="price">¥168</span><a class="buylink" href="#merch">Buy Vinyl →</a></div>
+        </div>
+      </article>
+      <article class="release" data-reveal>
+        <div class="sleeve-wrap">
+          <div class="vinyl-disc" aria-hidden="true"></div>
+          <div class="sleeve" style="--tone:#1f3aff;--tone-ink:#f2efe8">
+            <span class="cat">33-018</span>
+            <img src="https://picsum.photos/seed/33-018/720/720?grayscale" alt="STATIC YOUTH 专辑封面" loading="lazy" onerror="this.remove()">
+            <span class="init" aria-hidden="true">SY</span>
+            <span class="mark33">33⅓ · SIDE A</span>
+            <button class="play" aria-label="试听 STATIC YOUTH">▶</button>
+          </div>
+        </div>
+        <div class="rel-meta">
+          <div class="tagrow"><span>LP · 180G</span><span>2026.08.15</span></div>
+          <h3>STATIC YOUTH</h3>
+          <p class="rel-artist">SONAR 声呐</p>
+          <div class="buyrow"><span class="price">¥158</span><a class="buylink" href="#merch">Buy Vinyl →</a></div>
+        </div>
+      </article>
+      <article class="release" data-reveal>
+        <div class="sleeve-wrap">
+          <div class="vinyl-disc" aria-hidden="true"></div>
+          <div class="sleeve" style="--tone:#e6ff2e;--tone-ink:#0c0c0c">
+            <span class="cat">33-017</span>
+            <img src="https://picsum.photos/seed/33-017/720/720?grayscale" alt="CITY PULSE 专辑封面" loading="lazy" onerror="this.remove()">
+            <span class="init" aria-hidden="true">CP</span>
+            <span class="mark33">33⅓ · SIDE A</span>
+            <button class="play" aria-label="试听 CITY PULSE">▶</button>
+          </div>
+        </div>
+        <div class="rel-meta">
+          <div class="tagrow"><span>EP · 12"</span><span>2026.07.04</span></div>
+          <h3>CITY PULSE 城市心跳</h3>
+          <p class="rel-artist">KM 里程</p>
+          <div class="buyrow"><span class="price">¥128</span><a class="buylink" href="#merch">Buy Vinyl →</a></div>
+        </div>
+      </article>
+      <article class="release" data-reveal>
+        <div class="sleeve-wrap">
+          <div class="vinyl-disc" aria-hidden="true"></div>
+          <div class="sleeve dark" style="--tone:#0c0c0c;--tone-ink:#ff2b1a">
+            <span class="cat">33-016</span>
+            <img src="https://picsum.photos/seed/33-016/720/720?grayscale" alt="NO FUN 专辑封面" loading="lazy" onerror="this.remove()">
+            <span class="init" aria-hidden="true">NF</span>
+            <span class="mark33">33⅓ · SIDE A</span>
+            <button class="play" aria-label="试听 NO FUN">▶</button>
+          </div>
+        </div>
+        <div class="rel-meta">
+          <div class="tagrow"><span>LP · 180G</span><span>2026.05.21</span></div>
+          <h3>NO FUN</h3>
+          <p class="rel-artist">WILDFIRE 野火</p>
+          <div class="buyrow"><span class="price">¥168</span><a class="buylink" href="#merch">Buy Vinyl →</a></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- roster -->
+<section class="sec sec-dark" id="roster">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="rgb" aria-label="The Roster"><span class="st">The</span> <span class="ghost st">Roster</span></h2>
+      <span class="sec-idx">02 / 4 Artists · 12 In The Vault</span>
+      <a class="sec-link" href="#pressing">Send Demo →</a>
+    </div>
+    <div class="roster-grid" id="rosterGrid">
+      <article class="artist" data-reveal>
+        <div class="a-photo">
+          <span class="a-init" aria-hidden="true">LY</span>
+          <img src="https://picsum.photos/seed/thirty-ly/640/840?grayscale" alt="LU YAN 肖像" loading="lazy" onerror="this.remove()">
+          <div class="a-duo" aria-hidden="true"><img src="https://picsum.photos/seed/thirty-ly/640/840?grayscale" alt="" loading="lazy" onerror="this.remove()"></div>
+        </div>
+        <div class="a-meta">
+          <h3>LU YAN <span class="cn">陆延</span></h3>
+          <p class="genre">Ambient / No-Wave</p>
+          <div class="a-count"><span>6 Releases</span><span class="arr">→</span></div>
+        </div>
+      </article>
+      <article class="artist" data-reveal>
+        <div class="a-photo">
+          <span class="a-init" aria-hidden="true">SN</span>
+          <img src="https://picsum.photos/seed/thirty-sn/640/840?grayscale" alt="SONAR 肖像" loading="lazy" onerror="this.remove()">
+          <div class="a-duo" aria-hidden="true"><img src="https://picsum.photos/seed/thirty-sn/640/840?grayscale" alt="" loading="lazy" onerror="this.remove()"></div>
+        </div>
+        <div class="a-meta">
+          <h3>SONAR <span class="cn">声呐</span></h3>
+          <p class="genre">Post-Punk</p>
+          <div class="a-count"><span>4 Releases</span><span class="arr">→</span></div>
+        </div>
+      </article>
+      <article class="artist" data-reveal>
+        <div class="a-photo">
+          <span class="a-init" aria-hidden="true">KM</span>
+          <img src="https://picsum.photos/seed/thirty-km/640/840?grayscale" alt="KM 肖像" loading="lazy" onerror="this.remove()">
+          <div class="a-duo" aria-hidden="true"><img src="https://picsum.photos/seed/thirty-km/640/840?grayscale" alt="" loading="lazy" onerror="this.remove()"></div>
+        </div>
+        <div class="a-meta">
+          <h3>KM <span class="cn">里程</span></h3>
+          <p class="genre">Techno / Club</p>
+          <div class="a-count"><span>8 Releases</span><span class="arr">→</span></div>
+        </div>
+      </article>
+      <article class="artist" data-reveal>
+        <div class="a-photo">
+          <span class="a-init" aria-hidden="true">WF</span>
+          <img src="https://picsum.photos/seed/thirty-wf/640/840?grayscale" alt="WILDFIRE 肖像" loading="lazy" onerror="this.remove()">
+          <div class="a-duo" aria-hidden="true"><img src="https://picsum.photos/seed/thirty-wf/640/840?grayscale" alt="" loading="lazy" onerror="this.remove()"></div>
+        </div>
+        <div class="a-meta">
+          <h3>WILDFIRE <span class="cn">野火</span></h3>
+          <p class="genre">Garage Rock</p>
+          <div class="a-count"><span>3 Releases</span><span class="arr">→</span></div>
+        </div>
+      </article>
+    </div>
+    <div class="roster-cta" data-reveal>
+      <p>Got tapes? 厂牌长期征集 Demo。</p>
+      <a class="btn" href="#pressing" data-magnetic>Send Your Demo →</a>
+    </div>
+  </div>
+</section>
+
+<!-- merch -->
+<section class="sec sec-paper" id="merch">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="rgb" aria-label="Merch and Goods"><span class="st">Merch</span> <span class="ghost st">&amp; Goods</span></h2>
+      <span class="sec-idx">03 / Worldwide Shipping</span>
+      <a class="sec-link" href="#pressing">All Goods →</a>
+    </div>
+    <div class="goods-grid">
+      <article class="goods" data-reveal>
+        <div class="g-art g-slipmat">
+          <span class="g-word">SIDE A // SIDE B</span>
+          <div class="vinyl-disc" aria-hidden="true"></div>
+        </div>
+        <div class="g-meta">
+          <h3>Slipmat Set 唱片垫 ×2</h3>
+          <p class="g-sub">Felt · 12" · 33⅓ Print</p>
+          <div class="g-buyrow"><span class="price">¥88</span><button class="btn btn-red btn-sm" data-magnetic>Add to Cart</button></div>
+        </div>
+      </article>
+      <article class="goods" data-reveal>
+        <div class="g-art g-tee">
+          <span class="g-word">DEADWAX SERIES</span>
+          <span class="big-frac" aria-hidden="true"><span class="frac"><span class="n">1</span><span class="d">3</span></span></span>
+          <span class="g-note">240GSM COTTON</span>
+        </div>
+        <div class="g-meta">
+          <h3>Deadwax Tee</h3>
+          <p class="g-sub">Black · S–XL · Screen Print</p>
+          <div class="g-buyrow"><span class="price">¥199<span class="g-tag">LOW STOCK</span></span><button class="btn btn-red btn-sm" data-magnetic>Add to Cart</button></div>
+        </div>
+      </article>
+      <article class="goods" data-reveal>
+        <div class="g-art g-tote">
+          <span class="g-word">TOUR 2026</span>
+          <div class="bar" aria-hidden="true"></div>
+          <span class="g-code">33-2026</span>
+        </div>
+        <div class="g-meta">
+          <h3>Record Tote 唱片托特包</h3>
+          <p class="g-sub">Heavy Canvas · Fits 12" Sleeve</p>
+          <div class="g-buyrow"><span class="price">¥129</span><button class="btn btn-red btn-sm" data-magnetic>Add to Cart</button></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- pressing list -->
+<section class="sec pressing" id="pressing">
+  <div class="press-vinyl" aria-hidden="true"><div class="vinyl-disc"></div></div>
+  <span class="press-star" style="top:8%;right:6%" aria-hidden="true">★</span>
+  <span class="press-star" style="top:62%;right:6%;animation-duration:22s" aria-hidden="true">★</span>
+  <div class="wrap">
+    <h2 class="press-title rgb" aria-label="Join The Pressing List"><span class="st">Join The</span><span class="ghost st">Pressing List</span></h2>
+    <p class="press-sub">新发行 · 限量首版 · 预售通知 — 直达邮箱。No spam, wax only.</p>
+    <form class="press-form" id="pressForm">
+      <input type="email" required placeholder="YOUR@EMAIL.COM" aria-label="邮箱地址">
+      <button class="btn btn-black" type="submit" data-magnetic>Subscribe ★</button>
+    </form>
+    <p class="press-note">12,000+ listeners already on the list — unsubscribe anytime.</p>
+  </div>
+</section>
+</main>
+
+<!-- footer -->
+<footer class="footer">
+  <div class="wm" aria-hidden="true">33<span class="red">⅓</span></div>
+  <div class="wrap">
+    <div class="foot-manifesto" data-reveal>
+      <p>Independent label pressing <span class="red">heavyweight vinyl</span> since 2019. No algorithms — just stereo.</p>
+    </div>
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="logo" href="#hero">
+          <span class="mark">33<span class="frac"><span class="n">1</span><span class="d">3</span></span></span>
+          <span class="word">RECORDS</span>
+        </a>
+        <p>慢转长放 · Slow Spin, Long Play<br>Shanghai / Berlin</p>
+      </div>
+      <div class="foot-col">
+        <h4>Music</h4>
+        <a href="#releases">Releases</a><a href="#roster">Artists</a><a href="#pressing">Playlists</a>
+      </div>
+      <div class="foot-col">
+        <h4>Shop</h4>
+        <a href="#merch">Vinyl</a><a href="#merch">Merch</a><a href="#merch">Gift Card</a>
+      </div>
+      <div class="foot-col">
+        <h4>Follow</h4>
+        <a href="https://open.spotify.com" target="_blank" rel="noopener"><span class="tick">▶</span>Spotify</a>
+        <a href="https://bandcamp.com" target="_blank" rel="noopener"><span class="tick">▶</span>Bandcamp</a>
+        <a href="https://music.163.com" target="_blank" rel="noopener"><span class="tick">▶</span>网易云音乐</a>
+        <a href="https://y.qq.com" target="_blank" rel="noopener"><span class="tick">▶</span>QQ音乐</a>
+        <a href="https://instagram.com" target="_blank" rel="noopener"><span class="tick">▶</span>Instagram</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Thirty-Three Records 慢转长放</span>
+      <div class="barcode" aria-hidden="true"></div>
+      <span>33-2026 · Made Loud In Shanghai</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+/* ============================================================
+   THIRTY-THREE — interaction engine
+   gsap + ScrollTrigger + Lenis + three.js (dynamic import)
+============================================================ */
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const finePointer = matchMedia('(pointer: fine)').matches;
+const hasGsap = typeof gsap !== 'undefined';
+
+/* ---------- tiny split helpers (dependency-proof) ---------- */
+function splitChars(el){
+  const text = el.textContent; el.setAttribute('aria-hidden','true');
+  el.textContent = '';
+  const frag = document.createDocumentFragment();
+  for(const ch of text){
+    const s = document.createElement('span');
+    s.className = 'ch'; s.textContent = ch === ' ' ? '\u00A0' : ch;
+    frag.appendChild(s);
+  }
+  el.appendChild(frag);
+  return el.querySelectorAll('.ch');
+}
+function splitWords(el){
+  const text = el.textContent; el.setAttribute('aria-hidden','true');
+  el.innerHTML = text.split(' ').map(w=>`<span class="wd" style="display:inline-block;overflow:hidden"><span class="wi" style="display:inline-block;will-change:transform">${w}</span></span>`).join(' ');
+  return el.querySelectorAll('.wi');
+}
+
+/* ---------- fallback: no gsap ---------- */
+if(!hasGsap){
+  document.documentElement.classList.add('no-anim');
+  const p = document.getElementById('preloader'); if(p) p.remove();
+}
+
+async function boot(){
+  if('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+  /* ---------- lenis smooth scroll ---------- */
+  let lenis = null;
+  if(hasGsap && typeof Lenis !== 'undefined' && !reduced){
+    gsap.registerPlugin(ScrollTrigger);
+    lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(t => lenis.raf(t * 1000));
+    gsap.ticker.lagSmoothing(0);
+  } else if(hasGsap){ gsap.registerPlugin(ScrollTrigger); }
+
+  /* ---------- mobile menu ---------- */
+  const burger = document.getElementById('burgerBtn');
+  const mnav = document.getElementById('mnav');
+  function closeMenu(){
+    document.body.classList.remove('menu-open');
+    if(burger){ burger.setAttribute('aria-expanded','false'); burger.setAttribute('aria-label','打开菜单'); }
+    if(mnav) mnav.setAttribute('aria-hidden','true');
+    if(lenis) lenis.start();
+  }
+  if(burger && mnav){
+    burger.addEventListener('click', ()=>{
+      const open = document.body.classList.toggle('menu-open');
+      burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
+      mnav.setAttribute('aria-hidden', String(!open));
+      if(lenis){ if(open) lenis.stop(); else lenis.start(); }
+    });
+    addEventListener('keydown', e=>{ if(e.key === 'Escape' && document.body.classList.contains('menu-open')) closeMenu(); });
+    addEventListener('resize', ()=>{ if(innerWidth > 760 && document.body.classList.contains('menu-open')) closeMenu(); });
+  }
+
+  /* ---------- anchor links through lenis ---------- */
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', e=>{
+      const id = a.getAttribute('href');
+      if(id && id.length > 1){
+        const t = document.querySelector(id);
+        if(t){
+          e.preventDefault();
+          closeMenu();
+          if(lenis) lenis.scrollTo(t, { offset:-70 });
+          else t.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
+        }
+      }
+    });
+  });
+
+  /* scroll velocity (frame-based, drives marquee + vinyl) */
+  let lastY = scrollY, frameVel = 0;
+  if(hasGsap) gsap.ticker.add(() => {
+    const y = scrollY; frameVel += ((y - lastY) - frameVel) * .12; lastY = y;
+  });
+
+  /* ---------- custom cursor ---------- */
+  if(finePointer && hasGsap){
+    const dot = document.querySelector('.cursor-dot'), ring = document.querySelector('.cursor-ring');
+    const setD = gsap.quickSetter(dot,'x','px'), setDy = gsap.quickSetter(dot,'y','px');
+    const setR = gsap.quickSetter(ring,'x','px'), setRy = gsap.quickSetter(ring,'y','px');
+    let mx = innerWidth/2, my = innerHeight/2, rx = mx, ry = my;
+    addEventListener('pointermove', e => { mx = e.clientX; my = e.clientY; }, {passive:true});
+    gsap.ticker.add(() => {
+      rx += (mx - rx) * .16; ry += (my - ry) * .16;
+      setD(mx); setDy(my); setR(rx); setRy(ry);
+    });
+    addEventListener('pointerdown', ()=>document.body.classList.add('cur-down'));
+    addEventListener('pointerup', ()=>document.body.classList.remove('cur-down'));
+    document.querySelectorAll('a,button,input').forEach(el=>{
+      el.addEventListener('pointerenter', ()=>document.body.classList.add('cur-hover'));
+      el.addEventListener('pointerleave', ()=>document.body.classList.remove('cur-hover'));
+    });
+  }
+
+  /* ---------- magnetic elements ---------- */
+  if(finePointer && hasGsap){
+    document.querySelectorAll('[data-magnetic]').forEach(el=>{
+      el.addEventListener('pointermove', e=>{
+        const r = el.getBoundingClientRect();
+        gsap.to(el, { x:(e.clientX-(r.left+r.width/2))*.32, y:(e.clientY-(r.top+r.height/2))*.32, duration:.4, ease:'power3.out', overwrite:'auto' });
+      });
+      el.addEventListener('pointerleave', ()=> gsap.to(el,{x:0,y:0,duration:.8,ease:'elastic.out(1,.35)'}));
+      el.addEventListener('pointerdown', ()=> gsap.to(el,{scale:.93,duration:.18}));
+      el.addEventListener('pointerup',   ()=> gsap.to(el,{scale:1,duration:.45,ease:'back.out(3)'}));
+    });
+  }
+
+  /* ---------- marquee: velocity-reactive ---------- */
+  if(hasGsap && !reduced){
+    const track = document.getElementById('mqTrack');
+    const mq = gsap.to(track, { xPercent:-50, ease:'none', duration:22, repeat:-1 });
+    gsap.ticker.add(()=>{
+      const ts = 1 + Math.min(Math.abs(frameVel) * .045, 3);
+      mq.timeScale(mq.timeScale() + (ts - mq.timeScale()) * .08);
+    });
+  }
+
+  /* ---------- spotlight on roster ---------- */
+  const roster = document.getElementById('rosterGrid');
+  if(roster){
+    roster.querySelectorAll('.artist').forEach(a=>{
+      let raf = 0;
+      a.addEventListener('pointermove', e=>{
+        if(raf) return;
+        raf = requestAnimationFrame(()=>{
+          raf = 0;
+          const r = a.getBoundingClientRect();
+          a.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+          a.style.setProperty('--my', (e.clientY - r.top) + 'px');
+        });
+      });
+    });
+  }
+
+  /* ---------- pressing list form ---------- */
+  const pressForm = document.getElementById('pressForm');
+  if(pressForm){
+    pressForm.addEventListener('submit', e=>{
+      e.preventDefault();
+      const b = pressForm.querySelector('button');
+      if(b){ b.textContent = 'SUBSCRIBED ★'; b.disabled = true; }
+      tick(880);
+    });
+  }
+
+  /* ---------- vinyl crackle audio (WebAudio synth, no assets) ---------- */
+  let ac=null, masterGain=null, crackle=null, sndOn=false;
+  const sndBtn = document.getElementById('sndBtn');
+  function noiseBuffer(sec=2){
+    const b = ac.createBuffer(1, ac.sampleRate*sec, ac.sampleRate);
+    const d = b.getChannelData(0); let last=0;
+    for(let i=0;i<d.length;i++){ const w=Math.random()*2-1; last=(last+.02*w)/1.02; d[i]=last*3.2; }
+    return b;
+  }
+  function startCrackle(){
+    const src = ac.createBufferSource(); src.buffer = noiseBuffer(3); src.loop = true;
+    const bp = ac.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=900; bp.Q.value=.6;
+    const g = ac.createGain(); g.gain.value=.05;
+    src.connect(bp).connect(g).connect(masterGain); src.start();
+    const pops = setInterval(()=>{
+      if(!sndOn) return;
+      const o = ac.createOscillator(), og = ac.createGain();
+      o.type='triangle'; o.frequency.value = 700 + Math.random()*1400;
+      og.gain.setValueAtTime(.06, ac.currentTime);
+      og.gain.exponentialRampToValueAtTime(.0001, ac.currentTime + .045);
+      o.connect(og).connect(masterGain); o.start(); o.stop(ac.currentTime + .05);
+    }, 260);
+    crackle = { stop(){ try{src.stop()}catch(e){} clearInterval(pops); } };
+  }
+  function tick(f=1150){
+    if(!sndOn || !ac) return;
+    const o = ac.createOscillator(), og = ac.createGain();
+    o.type='square'; o.frequency.value=f;
+    og.gain.setValueAtTime(.035, ac.currentTime);
+    og.gain.exponentialRampToValueAtTime(.0001, ac.currentTime + .05);
+    o.connect(og).connect(masterGain); o.start(); o.stop(ac.currentTime + .06);
+  }
+  if(sndBtn){
+    sndBtn.addEventListener('click', ()=>{
+      if(!ac){ ac = new (window.AudioContext||window.webkitAudioContext)();
+        masterGain = ac.createGain(); masterGain.gain.value=.7; masterGain.connect(ac.destination); }
+      if(ac.state==='suspended') ac.resume();
+      sndOn = !sndOn;
+      sndBtn.classList.toggle('on', sndOn);
+      sndBtn.setAttribute('aria-pressed', String(sndOn));
+      sndBtn.querySelector('span').textContent = sndOn ? 'SOUND ON' : 'SOUND OFF';
+      if(sndOn){ startCrackle(); tick(900); } else if(crackle){ crackle.stop(); crackle=null; }
+    });
+    document.addEventListener('visibilitychange', ()=>{
+      if(!ac) return;
+      if(document.hidden) ac.suspend(); else if(sndOn) ac.resume();
+    });
+    document.querySelectorAll('.play,.btn,.buylink').forEach(el=> el.addEventListener('pointerenter', ()=>tick(1300)));
+    document.querySelectorAll('.play').forEach(el=> el.addEventListener('click', ()=>tick(750)));
+  }
+
+  /* ---------- preloader + intro ---------- */
+  const wait = ms => new Promise(r=>setTimeout(r,ms));
+  const loaded = new Promise(r=>{ if(document.readyState==='complete') r(); else addEventListener('load', r, {once:true}); });
+
+  const heroTitle = document.getElementById('heroTitle');
+  let heroChars = [];
+  if(hasGsap && typeof SplitText !== 'undefined'){
+    try{
+      const st = new SplitText(heroTitle.querySelectorAll('.split'), { type:'chars', charsClass:'ch' });
+      heroChars = st.chars;
+    }catch(e){ heroTitle.querySelectorAll('.split').forEach(el=> heroChars.push(...splitChars(el))); }
+  } else if(hasGsap){
+    heroTitle.querySelectorAll('.split').forEach(el=> heroChars.push(...splitChars(el)));
+  }
+
+  function heroIntro(){
+    if(!hasGsap || reduced) return;
+    const tl = gsap.timeline({ defaults:{ ease:'expo.out' } });
+    if(heroChars.length) tl.from(heroChars, { yPercent:120, duration:1.1, stagger:.028 }, 0);
+    tl.from('#heroMeta', { y:24, autoAlpha:0, duration:.8 }, .35)
+      .from('#heroFoot', { y:30, autoAlpha:0, duration:.9 }, .5)
+      .from('.scroll-hint', { autoAlpha:0, duration:.8 }, .8)
+      .from('.nav', { yPercent:-110, duration:.9 }, .15)
+      .from('.marquee', { scaleY:0, transformOrigin:'top', duration:.7 }, .55);
+  }
+
+  if(hasGsap){
+    const count = { v:0 };
+    const cEl = document.getElementById('preCount'), bEl = document.getElementById('preBar');
+    await Promise.race([loaded, wait(3500)]);
+    await gsap.to(count, { v:100, duration: reduced ? .3 : 2.1, ease:'power2.inOut',
+      onUpdate:()=>{ cEl.textContent = String(Math.round(count.v)).padStart(3,'0'); bEl.style.width = count.v + '%'; }
+    }).then(()=> gsap.to('#preloader', { yPercent:-100, duration:.9, ease:'expo.inOut',
+      onStart:()=>{ if(!reduced) heroIntro(); },
+      onComplete:()=>{ document.getElementById('preloader').remove(); ScrollTrigger.refresh(); } }));
+  }
+
+  /* ---------- scroll choreography ---------- */
+  if(hasGsap && !reduced){
+    /* hero title scatter (文字粒子打散) */
+    if(heroChars.length){
+      gsap.to(heroChars, {
+        x:()=>gsap.utils.random(-140,140), y:()=>gsap.utils.random(-160,120),
+        rotation:()=>gsap.utils.random(-40,40), autoAlpha:0,
+        stagger:{ each:.012, from:'random' }, ease:'power2.in',
+        scrollTrigger:{ trigger:'#hero', start:'top top', end:'bottom 35%', scrub:.6 }
+      });
+    }
+    /* section titles word-growth (文字逐词生长) */
+    document.querySelectorAll('.st').forEach(el=>{
+      const words = splitWords(el);
+      gsap.from(words, { yPercent:115, duration:.9, ease:'expo.out', stagger:.07,
+        scrollTrigger:{ trigger:el.closest('.sec-head,.pressing'), start:'top 78%', once:true } });
+    });
+    /* cards reveal + sleeve wipe */
+    gsap.utils.toArray('[data-reveal]').forEach(el=>{
+      gsap.from(el, { y:70, autoAlpha:0, duration:1, ease:'power3.out',
+        scrollTrigger:{ trigger:el, start:'top 88%', once:true } });
+    });
+    gsap.utils.toArray('.sleeve').forEach(sl=>{
+      gsap.fromTo(sl, { clipPath:'inset(0 0 100% 0)' }, { clipPath:'inset(0 0 0% 0)', duration:1.1, ease:'expo.inOut',
+        scrollTrigger:{ trigger:sl, start:'top 85%', once:true } });
+      const img = sl.querySelector('img');
+      if(img) gsap.fromTo(img, { yPercent:-7 }, { yPercent:7, ease:'none',
+        scrollTrigger:{ trigger:sl, start:'top bottom', end:'bottom top', scrub:true } });
+    });
+    /* footer watermark parallax */
+    gsap.to('.wm', { yPercent:-18, ease:'none',
+      scrollTrigger:{ trigger:'.footer', start:'top bottom', end:'bottom bottom', scrub:true } });
+  }
+
+  /* ---------- three.js scene (dynamic import → graceful fallback) ---------- */
+  let three = null;
+  try{ three = await import('three'); }catch(e){ document.documentElement.dataset.importError = String((e && e.message) || e); }
+  if(!three){ document.documentElement.classList.add('no-webgl'); return; }
+
+  const canvas = document.getElementById('gl');
+  let renderer;
+  try{
+    renderer = new three.WebGLRenderer({ canvas, antialias:true, powerPreference:'high-performance' });
+  }catch(e){ document.documentElement.dataset.rendererError = String((e && e.message) || e); document.documentElement.classList.add('no-webgl'); return; }
+  const DPR = Math.min(devicePixelRatio || 1, innerWidth < 760 ? 1.3 : 1.6);
+  renderer.setPixelRatio(DPR);
+  renderer.setSize(innerWidth, innerHeight);
+  /* context lost → fall back to CSS vinyl permanently (no restore path by design) */
+  canvas.addEventListener('webglcontextlost', e => { e.preventDefault(); document.documentElement.classList.add('no-webgl'); });
+
+  const scene = new three.Scene();
+  const camera = new three.PerspectiveCamera(38, innerWidth/innerHeight, .1, 30);
+  camera.position.set(0, .08, 4.7);
+
+  /* --- background fluid/halftone shader quad --- */
+  const fluidUni = {
+    uTime:{ value:0 }, uRes:{ value:new three.Vector2(innerWidth, innerHeight) },
+    uMouse:{ value:new three.Vector2(.5,.5) }, uVel:{ value:0 }
+  };
+  renderer.getDrawingBufferSize(fluidUni.uRes.value);
+  const fluid = new three.Mesh(
+    new three.PlaneGeometry(2,2),
+    new three.ShaderMaterial({
+      uniforms: fluidUni, depthTest:false, depthWrite:false,
+      vertexShader:`void main(){ gl_Position = vec4(position.xy, .9999, 1.); }`,
+      fragmentShader:`
+        precision highp float;
+        uniform float uTime; uniform vec2 uRes; uniform vec2 uMouse; uniform float uVel;
+        float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5453123); }
+        float noise(vec2 p){ vec2 i=floor(p), f=fract(p); f=f*f*(3.-2.*f);
+          return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x), mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),f.x), f.y); }
+        float fbm(vec2 p){ float v=0., a=.5; for(int i=0;i<3;i++){ v+=a*noise(p); p=p*2.03+vec2(17.7); a*=.5; } return v; }
+        void main(){
+          vec2 uv = gl_FragCoord.xy/uRes;
+          vec2 asp = vec2(uRes.x/uRes.y, 1.);
+          vec2 p = uv*asp;
+          vec2 m = uMouse*asp;
+          float d = length(p-m);
+          float push = exp(-d*3.2)*uVel;
+          vec2 flow = vec2(fbm(p*1.35+uTime*.05), fbm(p*1.35-uTime*.045+7.3)) - .5;
+          vec2 q = p + flow*(.5+push*2.6) - (p-m)*push*.9;
+          float n  = fbm(q*2.1);
+          float n2 = fbm(q*5.5 - uTime*.07);
+          vec3 col = mix(vec3(.014,.014,.018), vec3(.095,.095,.11), smoothstep(.32,.95,n));
+          col += vec3(.05)*n2*push*4.;
+          float grid = 30.;
+          vec2 gp = fract(p*grid)-.5;
+          float dots = smoothstep(.34,.05,length(gp)) * smoothstep(.3,.8,n2);
+          col += vec3(.05)*dots;
+          col += vec3(1.,.16,.1) * exp(-d*5.5) * uVel * .5;
+          float vg = smoothstep(1.3,.35,length((uv-.5)*vec2(1.55,1.2)));
+          col *= mix(.62,1.,vg);
+          gl_FragColor = vec4(col,1.);
+        }`
+    })
+  );
+  fluid.renderOrder = -1; fluid.frustumCulled = false;
+  scene.add(fluid);
+
+  /* --- procedural vinyl --- */
+  const vinylGroup = new three.Group();
+  scene.add(vinylGroup);
+  const disc = new three.Mesh(
+    new three.CylinderGeometry(1.38, 1.38, .07, 128),
+    [ new three.MeshBasicMaterial({ color:0x0a0a0b }),
+      grooveMaterial(), new three.MeshBasicMaterial({ color:0x0a0a0b }) ]
+  );
+  function grooveMaterial(){
+    return new three.ShaderMaterial({
+      uniforms:{},
+      vertexShader:`
+        varying vec2 vUv; varying vec3 vN; varying vec3 vV;
+        void main(){
+          vUv = uv;
+          vec4 mv = modelViewMatrix * vec4(position,1.);
+          vN = normalize(normalMatrix * normal);
+          vV = normalize(-mv.xyz);
+          gl_Position = projectionMatrix * mv;
+        }`,
+      fragmentShader:`
+        precision highp float;
+        varying vec2 vUv; varying vec3 vN; varying vec3 vV;
+        void main(){
+          float r = length(vUv - .5) * 2.;
+          float g1 = .5 + .5 * sin(r * 520.);
+          float micro = .5 + .5 * sin(r * 2400.);
+          vec3 col = vec3(.013,.013,.016);
+          float diff = max(dot(normalize(vN), normalize(vec3(.45,.85,.5))), 0.);
+          col += vec3(.05) * diff;
+          vec3 h = normalize(normalize(vec3(.45,.85,.5)) + normalize(vV));
+          float spec = pow(max(dot(vN, h), 0.), 30.);
+          col += vec3(.75) * spec * (.22 + .4 * g1);
+          col += vec3(.4,.42,.46) * micro * .035;
+          float fres = pow(1. - max(dot(normalize(vN), normalize(vV)), 0.), 3.);
+          col += vec3(1.) * fres * .42;
+          col += vec3(1.,.17,.1) * smoothstep(.014,.0,abs(r-.345)) * .7;
+          col += vec3(1.,.17,.1) * smoothstep(.012,.0,abs(r-.985)) * .3;
+          gl_FragColor = vec4(col, 1.);
+        }`
+    });
+  }
+  disc.rotation.x = Math.PI/2;
+  vinylGroup.add(disc);
+
+  /* label texture (canvas → texture, zero assets) */
+  const lc = document.createElement('canvas'); lc.width = lc.height = 512;
+  const lx = lc.getContext('2d');
+  lx.fillStyle = '#ff2b1a'; lx.fillRect(0,0,512,512);
+  lx.strokeStyle = '#0c0c0c'; lx.lineWidth = 3;
+  [238, 168, 96].forEach(r=>{ lx.beginPath(); lx.arc(256,256,r,0,7); lx.stroke(); });
+  lx.fillStyle = '#0c0c0c'; lx.textAlign = 'center';
+  lx.font = '900 74px "Arial Black", Arial, sans-serif';
+  lx.fillText('THIRTY', 256, 218); lx.fillText('THREE', 256, 292);
+  lx.font = '700 21px "Courier New", monospace';
+  lx.fillText('RECORDS · 33 1/3 RPM', 256, 336);
+  lx.font = '700 17px "Courier New", monospace';
+  lx.fillText('★ SIDE A — SLOW SPIN, LONG PLAY ★', 256, 372);
+  const labelTex = new three.CanvasTexture(lc);
+  labelTex.colorSpace = three.SRGBColorSpace; labelTex.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+  const label = new three.Mesh(new three.CircleGeometry(.5, 64), new three.MeshBasicMaterial({ map:labelTex }));
+  label.rotation.x = -Math.PI/2; label.position.y = .037;
+  disc.add(label);
+  const hole = new three.Mesh(new three.CircleGeometry(.045, 32), new three.MeshBasicMaterial({ color:0x0c0c0c }));
+  hole.rotation.x = -Math.PI/2; hole.position.y = .038;
+  disc.add(hole);
+
+  /* --- interaction state --- */
+  let mouseNX = 0, mouseNY = 0, smX = 0, smY = 0, velSm = 0;
+  let spin = 0, heroActive = true, canvasFade = 1;
+  addEventListener('pointermove', e=>{
+    mouseNX = (e.clientX/innerWidth - .5) * 2;
+    mouseNY = (e.clientY/innerHeight - .5) * 2;
+    fluidUni.uMouse.value.set(e.clientX/innerWidth, 1 - e.clientY/innerHeight);
+  }, {passive:true});
+
+  const isMobile = () => innerWidth < 760;
+  function layout(){
+    if(isMobile()){ vinylGroup.position.set(.55, -.78, 0); vinylGroup.scale.setScalar(.62); }
+    else{ vinylGroup.position.set(1.55, -.12, 0); vinylGroup.scale.setScalar(1); }
+  }
+  layout();
+
+  /* hero scroll → camera/choreography */
+  if(hasGsap){
+    ScrollTrigger.create({
+      trigger:'#hero', start:'top top', end:'+=90%', scrub:true,
+      onUpdate(self){
+        canvasFade = 1 - self.progress;
+        const p = self.progress;
+        if(isMobile()){
+          vinylGroup.position.x = .55 - p*1.4;
+          vinylGroup.scale.setScalar(.62*(1 - p*.35));
+        }else{
+          vinylGroup.position.x = 1.55 - p*2.6;
+          vinylGroup.scale.setScalar(1 - p*.42);
+        }
+        vinylGroup.rotation.z = p * .5;
+        vinylGroup.rotation.x = mouseNY * .22 + p * .35;
+      },
+      onLeave:()=>{ heroActive = false; },
+      onEnterBack:()=>{ heroActive = true; }
+    });
+  }
+
+  addEventListener('resize', ()=>{
+    camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix();
+    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, innerWidth < 760 ? 1.3 : 1.6));
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.getDrawingBufferSize(fluidUni.uRes.value);
+    layout();
+  });
+
+  /* --- render loop (paused when hero out of view; gsap ticker or bare rAF) --- */
+  const clock = new three.Clock();
+  let fadeShown = -1;
+  const tick3D = ()=>{
+    const dt = Math.min(clock.getDelta(), .05);
+    const off = (!heroActive && canvasFade <= .01) || scrollY > innerHeight * 1.25;
+    if(off){
+      if(fadeShown !== 0){ canvas.style.opacity = 0; fadeShown = 0; }
+      return;
+    }
+    if(Math.abs(canvasFade - fadeShown) > .01){ canvas.style.opacity = canvasFade; fadeShown = canvasFade; }
+    const t = clock.elapsedTime;
+    if(!reduced) fluidUni.uTime.value = t;
+    const targetVel = Math.min(Math.abs(frameVel) * .012 + (finePointer ? Math.hypot(mouseNX - smX, mouseNY - smY) * 1.6 : 0), 1);
+    velSm += (targetVel - velSm) * .08;
+    fluidUni.uVel.value = velSm;
+    smX += (mouseNX - smX) * .05; smY += (mouseNY - smY) * .05;
+    camera.position.x = smX * .22; camera.position.y = .08 - smY * .14;
+    camera.lookAt(0, 0, 0);
+    if(!reduced) spin += dt * (.22 + Math.min(Math.abs(frameVel) * .002, .5));
+    disc.rotation.y = spin;
+    if(!hasGsap || reduced){
+      vinylGroup.rotation.x = smY * .2;
+      vinylGroup.rotation.z = smX * -.08;
+    }else{
+      vinylGroup.rotation.x += ((mouseNY * .22) - vinylGroup.rotation.x) * .06;
+      vinylGroup.rotation.z += ((smX * -.1) - vinylGroup.rotation.z) * .06;
+    }
+    renderer.render(scene, camera);
+  };
+  if(hasGsap){ gsap.ticker.add(tick3D); }
+  else { const raf = ()=>{ tick3D(); requestAnimationFrame(raf); }; requestAnimationFrame(raf); }
+}
+boot().catch(err=>{
+  console.warn('boot error', err);
+  document.documentElement.dataset.bootError = String((err && (err.stack || err.message)) || err);
+  document.documentElement.classList.add('no-webgl');
+  const p = document.getElementById('preloader'); if(p) p.remove();
+});
+</script>
+</body>
+</html>

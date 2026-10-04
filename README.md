@@ -35,10 +35,25 @@ npx serve .
 ```
 sites/
 ├─ burnclub/        燃社官网 → https://burnclub-sigma.vercel.app（Root Directory = sites/burnclub，Framework Other，无构建）
-└─ vanta/           VANTA® 机能服饰官网（Root Directory = sites/vanta，Framework Vite：`npm run build` → `dist`）
+├─ vanta/           VANTA® 机能服饰官网（Root Directory = sites/vanta，Framework Vite：`npm run build` → `dist`）
+└─ thirty-three/    THIRTY-THREE RECORDS 独立唱片厂牌官网（Root Directory = sites/thirty-three，Framework Other，无构建）
 ```
 
 新站加入：写好代码 → push → Vercel Import 本仓库 → Root Directory 指向该文件夹。
+
+### thirty-three 站点结构（纯静态，与 burnclub 同模式）
+
+```
+sites/thirty-three/
+├─ index.html        单文件整站（Three.js 程序化黑胶 + 流体着色器 + GSAP/Lenis 滚动编排，零本地素材，全部 CDN）
+└─ vercel.json       cleanUrls
+```
+
+本地预览：仓库根起服务器后访问 `/sites/thirty-three/`，或 `cd sites/thirty-three && py -m http.server 8765`。
+
+Vercel 部署：Import 本仓库 → Root Directory 填 `sites/thirty-three` → Framework Preset 选 **Other**，Build Command 与 Output Directory 留空 → Deploy。
+
+注意：本地 `vercel` 命令手动部署时，须 `cd sites/thirty-three` 后执行（在仓库根执行会和 Root Directory 冲突）；日常走 `git push` 自动部署则无此问题。
 
 ### burnclub 站点结构
 
