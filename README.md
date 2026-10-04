@@ -28,15 +28,28 @@ npx serve .
 3. Framework Preset 选 **Other**；Build Command 和 Output Directory 全部留空（纯静态）。
 4. 点 Deploy。之后每次 `git push` 自动重新部署。
 
-## 结构
+## 结构（Monorepo）
+
+每个站点独立一个文件夹，独立部署为独立网址：
 
 ```
-index.html                  首页
-product-*.html              详情页 ×4（咖啡/压力锅/破壁机/空气炸锅）
-assets/css/main.css         设计系统（1976 行）
-assets/js/fx-core.js        共享 WebGL 特效引擎（噪声/图像着色器/后处理/调参面板）
-assets/js/gl.js             首屏 3D 场景/余烬物理/焦散/页面转场
-assets/js/app.js            Lenis/光标/SplitText/Barba/音频/粒子文字
-assets/img assets/sfx       素材（Unsplash 图库 + 程序化生成音效）
-PLAN.md                     设计契约文档
+sites/
+├─ burnclub/        燃社官网 → https://burnclub-sigma.vercel.app（Vercel 项目 Root Directory = sites/burnclub）
+└─ <新站>/           新站加入：写好代码 → push → Vercel Import 本仓库 → Root Directory 指向该文件夹
 ```
+
+### burnclub 站点结构
+
+```
+sites/burnclub/
+├─ index.html                  首页
+├─ product-*.html              详情页 ×4（咖啡/压力锅/破壁机/空气炸锅）
+├─ assets/css/main.css         设计系统（1976 行）
+├─ assets/js/fx-core.js        共享 WebGL 特效引擎（噪声/图像着色器/后处理/调参面板）
+├─ assets/js/gl.js             首屏 3D 场景/余烬物理/焦散/页面转场
+├─ assets/js/app.js            Lenis/光标/SplitText/Barba/音频/粒子文字
+├─ assets/img assets/sfx       素材（Unsplash 图库 + 程序化生成音效）
+└─ vercel.json                 缓存头 + cleanUrls
+```
+
+注意：本地 `vercel` 命令手动部署时，须 `cd sites/burnclub` 后执行。

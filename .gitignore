@@ -7,3 +7,4 @@ Desktop.ini
 *.log
 "_oracle_tmp.txt"  
 "_rt*.ps1"  
+.vercel
