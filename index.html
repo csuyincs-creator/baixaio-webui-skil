@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>首页 · 燃社 BURNCLUB</title>
+  <meta name="description" content="燃社 BURNCLUB——家庭小家电潮牌。硬核外表 + 生活内核，把家变成主场。四条产品人格线：凌晨四点的瘾者 / 灶间暴徒 / 果园轰炸机 / 深夜罪犯。">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+
+  <!-- 预加载器（契约：.preloader / .pre-num / .pre-char ×2 / .pre-label） -->
+  <div class="preloader" aria-hidden="true">
+    <div class="pre-chars">
+      <span class="pre-char">燃</span>
+      <span class="pre-char">社</span>
+    </div>
+    <p class="pre-num">000</p>
+    <p class="pre-label">BURNCLUB · 点火中</p>
+  </div>
+
+  <!-- Barba wrapper（app.js schema 中 wrapper 名为 "wrap"） -->
+  <div data-barba="wrap">
+
+    <nav class="site-nav" aria-label="主导航">
+      <a class="nav-logo" href="index.html">燃社<span>BURNCLUB</span></a>
+      <div class="nav-links">
+        <a href="index.html#roster">人格图鉴</a>
+        <a href="index.html#collections">Collections</a>
+        <a href="index.html#manifesto">宣言</a>
+      </div>
+      <div class="nav-actions">
+        <button class="nav-sound" type="button" aria-label="音效开关">🔊</button>
+        <a class="nav-cta" href="#join" data-magnetic>立即入社</a>
+      </div>
+    </nav>
+
+    <!-- Barba container -->
+    <main data-barba="container" data-title="首页 · 燃社 BURNCLUB">
+
+      <!-- 00 Hero：GL 首屏（canvas 由 gl.js 注入 [data-hero-gl]，层级在文字之下） -->
+      <section id="hero">
+        <div class="hero-gl" data-hero-gl data-src="assets/img/hero.jpg">
+          <div class="hero-inner">
+            <p class="hero-kicker">家庭小家电 · 火力全开 EST.2026</p>
+            <h1 data-split="chars">燃社</h1>
+            <p class="hero-sub">把家变成主场。</p>
+            <div class="hero-ctas">
+              <a class="hero-cta hero-cta--solid" href="index.html#manifesto" data-magnetic>立即入社</a>
+              <a class="hero-cta hero-cta--ghost" href="index.html#roster" data-magnetic>查看人格图鉴</a>
+            </div>
+          </div>
+          <p class="scroll-hint" aria-hidden="true">SCROLL ↓</p>
+        </div>
+      </section>
+
+      <!-- 跑马灯两行反向（.marquee-track 内容重复两份供无缝循环） -->
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee-row">
+          <div class="marquee-track">
+            <span class="marquee-item">火力全开<span class="marquee-star">✦</span></span>
+            <span class="marquee-item">FAMILY APPLIANCES<span class="marquee-star">✦</span></span>
+            <span class="marquee-item">燃社 BURNCLUB<span class="marquee-star">✦</span></span>
+            <span class="marquee-item">人格主义家电<span class="marquee-star">✦</span></span>
+            <span class="marquee-item">火力全开<span class="marquee-star">✦</span></span>
+            <span class="marquee-item">FAMILY APPLIANCES<span class="marquee-star">✦</span></span>
+            <span class="marquee-item">燃社 BURNCLUB<span class="marquee-star">✦</span></span>
+            <span class="marquee-item">人格主义家电<span class="marquee-star">✦</span></span>
+          </div>
+        </div>
+        <div class="marquee-row marquee-row--rev">
+          <div class="marquee-track">
+            <span class="marquee-item">人格主义家电<span class="marquee-star">✦</span></span>
+            <span class="marquee-item">燃社 BURNCLUB<span class="marquee-star">✦</span></span>
+            <span class="marquee-item">FAMILY APPLIANCES<span class="marquee-star">✦</span></span>
+            <span class="marquee-item">火力全开<span class="marquee-star">✦</span></span>
+            <span class="marquee-item">人格主义家电<span class="marquee-star">✦</span></span>
+            <span class="marquee-item">燃社 BURNCLUB<span class="marquee-star">✦</span></span>
+            <span class="marquee-item">FAMILY APPLIANCES<span class="marquee-star">✦</span></span>
+            <span class="marquee-item">火力全开<span class="marquee-star">✦</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 01 宣言（深色 --coffee 底，右列 scene-01 视差图 + 数据三枚） -->
+      <section id="manifesto">
+        <div class="manifesto-grid">
+          <div class="manifesto-copy">
+            <p class="sec-num">01 / 宣言 MANIFESTO</p>
+            <h2 class="manifesto-lede" data-split="words">家电不该是背景板。它站在你家最烫的地方，替你把日子点火。</h2>
+            <div class="manifesto-body">
+              <p data-reveal>我们不做安静的电器。每一台机器的外壳、手感与火力，都被当作乐器来打磨——它们应该被摆出来，被看见，被使唤，而不是缩在台面角落里装谦虚。</p>
+              <p data-reveal>燃社把产品当人格来造：每一条产品线都有自己的脾气、口音与立场。你挑的从来不是一张参数表，是往后每一天陪你开火的那位队友。</p>
+            </div>
+          </div>
+          <figure class="manifesto-visual">
+            <div class="scene-frame" data-wipe>
+              <img src="assets/img/scene-01.jpg" alt="宣言配图：灶火升起的厨房操作台现场" loading="lazy" data-parallax="0.15">
+            </div>
+            <figcaption>SCENE · 你家最烫的地方</figcaption>
+          </figure>
+        </div>
+        <div class="manifesto-stats">
+          <div class="stat" data-reveal>
+            <p class="stat-num">40<sup>+</sup></p>
+            <p class="stat-label">城市已点火</p>
+          </div>
+          <div class="stat" data-reveal>
+            <p class="stat-num">12<sup>万</sup></p>
+            <p class="stat-label">人社成员</p>
+          </div>
+          <div class="stat" data-reveal>
+            <p class="stat-num">4<sup>条</sup></p>
+            <p class="stat-label">产品人格线</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 人格图鉴（骨白底 · 编辑感交错网格 · 4 卡各链详情页） -->
+      <section id="roster">
+        <header class="sec-head">
+          <p class="sec-num">02 / 人格图鉴 ROSTER</p>
+          <h2 class="sec-title" data-split="words">认领你家的火力人格。</h2>
+        </header>
+        <div class="roster-grid">
+
+          <article class="p-card" data-reveal>
+            <p class="stamp" aria-hidden="true">NO.001</p>
+            <div class="reveal-color" data-cursor="点亮">
+              <img class="bw" src="assets/img/p-coffee.jpg" alt="NO.001 凌晨四点的瘾者 意式咖啡系统主机（灰度）" loading="lazy">
+              <img class="color" src="assets/img/p-coffee.jpg" alt="" aria-hidden="true" loading="lazy">
+            </div>
+            <h3 class="card-name">凌晨四点的瘾者</h3>
+            <p class="card-cat">意式咖啡系统 · ESPRESSO SYSTEM</p>
+            <p class="card-creed">仪式不是习惯，是戒不掉的瘾。</p>
+            <p class="card-spec">
+              <span>40档研磨</span><span class="spec-star" aria-hidden="true">✦</span><span>±1℃温控</span><span class="spec-star" aria-hidden="true">✦</span><span>15bar</span>
+            </p>
+            <a class="card-claim" href="product-coffee.html" data-magnetic data-cursor="认领">认领人格<span class="claim-arrow" aria-hidden="true">→</span></a>
+          </article>
+
+          <article class="p-card" data-reveal>
+            <p class="stamp" aria-hidden="true">NO.002</p>
+            <div class="reveal-color" data-cursor="点亮">
+              <img class="bw" src="assets/img/p-pressure.jpg" alt="NO.002 灶间暴徒 智能压力锅主机（灰度）" loading="lazy">
+              <img class="color" src="assets/img/p-pressure.jpg" alt="" aria-hidden="true" loading="lazy">
+            </div>
+            <h3 class="card-name">灶间暴徒</h3>
+            <p class="card-cat">智能压力锅 · PRESSURE COOKER</p>
+            <p class="card-creed">暴力，是温柔的成本。</p>
+            <p class="card-spec">
+              <span>70kPa</span><span class="spec-star" aria-hidden="true">✦</span><span>6L</span><span class="spec-star" aria-hidden="true">✦</span><span>八重防护</span>
+            </p>
+            <a class="card-claim" href="product-pressure.html" data-magnetic data-cursor="认领">认领人格<span class="claim-arrow" aria-hidden="true">→</span></a>
+          </article>
+
+          <article class="p-card" data-reveal>
+            <p class="stamp" aria-hidden="true">NO.003</p>
+            <div class="reveal-color" data-cursor="点亮">
+              <img class="bw" src="assets/img/p-juice.jpg" alt="NO.003 果园轰炸机 高速破壁机主机（灰度）" loading="lazy">
+              <img class="color" src="assets/img/p-juice.jpg" alt="" aria-hidden="true" loading="lazy">
+            </div>
+            <h3 class="card-name">果园轰炸机</h3>
+            <p class="card-cat">高速破壁机 · HIGH-SPEED BLENDER</p>
+            <p class="card-creed">把一整个果园按进杯子。</p>
+            <p class="card-spec">
+              <span>38000rpm</span><span class="spec-star" aria-hidden="true">✦</span><span>8叶精钢</span><span class="spec-star" aria-hidden="true">✦</span><span>1.8L</span>
+            </p>
+            <a class="card-claim" href="product-blender.html" data-magnetic data-cursor="认领">认领人格<span class="claim-arrow" aria-hidden="true">→</span></a>
+          </article>
+
+          <article class="p-card" data-reveal>
+            <p class="stamp" aria-hidden="true">NO.004</p>
+            <div class="reveal-color" data-cursor="点亮">
+              <img class="bw" src="assets/img/p-night.jpg" alt="NO.004 深夜罪犯 空气炸锅主机（灰度）" loading="lazy">
+              <img class="color" src="assets/img/p-night.jpg" alt="" aria-hidden="true" loading="lazy">
+            </div>
+            <h3 class="card-name">深夜罪犯</h3>
+            <p class="card-cat">空气炸锅 · AIR FRYER</p>
+            <p class="card-creed">罪恶感？0mg。</p>
+            <p class="card-spec">
+              <span>200℃热风</span><span class="spec-star" aria-hidden="true">✦</span><span>5.5L</span><span class="spec-star" aria-hidden="true">✦</span><span>免翻面</span>
+            </p>
+            <a class="card-claim" href="product-night.html" data-magnetic data-cursor="认领">认领人格<span class="claim-arrow" aria-hidden="true">→</span></a>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- 场景橱窗（scene-02 / scene-03 擦除 + 视差，位于图鉴与 Collections 之间） -->
+      <section class="scene-strip" aria-label="生活的火力现场">
+        <header class="sec-head">
+          <h2 class="sec-title" data-split="words">生活的火力现场</h2>
+        </header>
+        <div class="scene-pair">
+          <figure class="scene-item scene-item--a" data-wipe>
+            <img src="assets/img/scene-02.jpg" alt="火力现场：周末清晨的灶台与煎锅" loading="lazy" data-parallax="0.15">
+            <figcaption>SCENE · 周末早晨的灶台</figcaption>
+          </figure>
+          <figure class="scene-item scene-item--b" data-wipe>
+            <img src="assets/img/scene-03.jpg" alt="火力现场：深夜亮着灯的厨房一角" loading="lazy" data-parallax="0.15">
+            <figcaption>SCENE · 深夜十一点的厨房</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- 03 Collections 横向吸附区 -->
+      <section id="collections">
+        <header class="sec-head">
+          <p class="sec-num">03 / 系列 COLLECTIONS</p>
+          <h2 class="sec-title" data-split="words">一天的火力，分三档上桌。</h2>
+        </header>
+        <div class="snap-track" data-snap-track>
+
+          <!-- 整卡为链接：<a class="col-card"> 作为 flex item 会被块化，保证 .col-media 的 aspect-ratio 生效 -->
+          <a class="col-card" href="product-coffee.html" data-reveal aria-label="晨间仪式系列 · 去看凌晨四点的瘾者">
+            <div class="col-media" data-fximg data-halftone data-cursor="进系列">
+              <img src="assets/img/col-morning.jpg" alt="晨间仪式系列：晨光中的咖啡机与早餐台" loading="lazy">
+            </div>
+            <div class="col-info">
+              <h3 class="col-name">晨间仪式<em>MORNING RITUAL</em></h3>
+              <p class="col-quote">用一台咖啡机，叫醒整栋楼。</p>
+            </div>
+          </a>
+
+          <a class="col-card" href="product-night.html" data-reveal aria-label="深夜厨房系列 · 去看深夜罪犯">
+            <div class="col-media" data-fximg data-halftone data-cursor="进系列">
+              <img src="assets/img/col-night.jpg" alt="深夜厨房系列：夜色里的空气炸锅与炸物" loading="lazy">
+            </div>
+            <div class="col-info">
+              <h3 class="col-name">深夜厨房<em>AFTER DARK</em></h3>
+              <p class="col-quote">合法的深夜罪恶🔥</p>
+            </div>
+          </a>
+
+          <a class="col-card" href="product-blender.html" data-reveal aria-label="周末火力全开系列 · 去看果园轰炸机">
+            <div class="col-media" data-fximg data-halftone data-cursor="进系列">
+              <img src="assets/img/col-weekend.jpg" alt="周末火力全开系列：满桌果蔬与破壁机" loading="lazy">
+            </div>
+            <div class="col-info">
+              <h3 class="col-name">周末火力全开<em>WEEKEND WARRIOR</em></h3>
+              <p class="col-quote">厨房即主场。</p>
+            </div>
+          </a>
+
+        </div>
+        <div class="snap-progress" aria-hidden="true"></div>
+      </section>
+
+      <!-- 波浪分隔（主 path data-morph = 形态不同的备选路径） -->
+      <div class="wave-divider" aria-hidden="true">
+        <svg viewBox="0 0 1440 180" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+          <path class="wave-ghost" d="M0,118 C220,42 470,168 730,104 C990,40 1230,150 1440,74 L1440,180 L0,180 Z"></path>
+          <path data-morph="M0,70 C260,150 440,18 730,112 C1010,196 1190,66 1440,92 L1440,180 L0,180 Z" d="M0,96 C240,164 480,30 720,84 C960,138 1200,44 1440,116 L1440,180 L0,180 Z"></path>
+        </svg>
+      </div>
+
+      <!-- 04 入社通讯（焦散水面，canvas 由 gl.js 注入，内容叠其上） -->
+      <section class="subscribe" id="join" data-caustics>
+        <div class="subscribe-inner" data-reveal>
+          <p class="sec-num">04 / 入社通讯 JOIN US</p>
+          <h2 class="sec-title" data-split="words">把火力，<br>寄进你邮箱。</h2>
+          <form data-subscribe action="#" method="post">
+            <input type="email" name="email" aria-label="邮箱地址" placeholder="留下邮箱，领取入社编号" required>
+            <button type="submit" data-magnetic>入社</button>
+          </form>
+          <p class="subscribe-fine">每周一寄 · 只有火货，没有废话</p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- 页脚：粒子画布父容器需 position:relative（gl/app 契约） -->
+    <footer class="site-footer">
+      <div class="footer-particles">
+        <canvas data-particles aria-hidden="true"></canvas>
+      </div>
+      <div class="footer-grid">
+        <nav class="f-col" aria-label="人格图鉴">
+          <h3>人格图鉴</h3>
+          <a href="product-coffee.html">NO.001 凌晨四点的瘾者</a>
+          <a href="product-pressure.html">NO.002 灶间暴徒</a>
+          <a href="product-blender.html">NO.003 果园轰炸机</a>
+          <a href="product-night.html">NO.004 深夜罪犯</a>
+        </nav>
+        <nav class="f-col" aria-label="系列">
+          <h3>系列</h3>
+          <a href="index.html#collections">晨间仪式</a>
+          <a href="index.html#collections">深夜厨房</a>
+          <a href="index.html#collections">周末火力全开</a>
+        </nav>
+        <nav class="f-col" aria-label="社区">
+          <h3>社区</h3>
+          <a href="#join">入社通讯</a>
+          <a href="index.html#manifesto">品牌宣言</a>
+          <a href="index.html#roster">人格图鉴</a>
+        </nav>
+        <nav class="f-col" aria-label="服务">
+          <h3>服务</h3>
+          <a href="#">配送说明</a>
+          <a href="#">保修条款</a>
+          <a href="#">联系我们</a>
+        </nav>
+      </div>
+      <!-- 社交媒体链接行（替代原页脚重复订阅表单，✦ 分隔） -->
+      <div class="footer-social" aria-label="社交媒体">
+        <a href="#" rel="noopener">微博</a>
+        <span class="soc-star" aria-hidden="true">✦</span>
+        <a href="#" rel="noopener">小红书</a>
+        <span class="soc-star" aria-hidden="true">✦</span>
+        <a href="#" rel="noopener">Bilibili</a>
+        <span class="soc-star" aria-hidden="true">✦</span>
+        <a href="#" rel="noopener">Instagram</a>
+      </div>
+      <p class="footer-fine">© 2026 BURNCLUB 燃社 · 把家变成主场 · 沪ICP备2026001号-1</p>
+    </footer>
+
+  </div><!-- /data-barba="wrap" -->
+
+  <!-- 三方库与核心 JS（顺序见 PLAN §1，勿改） -->
+  <script src="assets/js/three.min.js"></script>
+  <script src="assets/js/cannon.min.js"></script>
+  <script src="assets/js/gsap.min.js"></script>
+  <script src="assets/js/ScrollTrigger.min.js"></script>
+  <script src="assets/js/SplitText.min.js"></script>
+  <script src="assets/js/lenis.min.js"></script>
+  <script src="assets/js/howler.min.js"></script>
+  <script src="assets/js/barba.umd.js"></script>
+  <script src="assets/js/fx-core.js"></script>
+  <script src="assets/js/gl.js"></script>
+  <script src="assets/js/app.js"></script>
+  <!-- 页面级胶水（不改动核心 JS）：音效开关 + 订阅表单占位反馈 -->
+  <script>
+    (function () {
+      var btn = document.querySelector('.nav-sound');
+      if (btn) btn.addEventListener('click', function () {
+        var on = document.body.classList.contains('audio-off');
+        if (window.APP) window.APP.setAudio(on);
+        btn.textContent = on ? '🔊' : '🔇';
+      });
+      document.querySelectorAll('form[data-subscribe]').forEach(function (f) {
+        f.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var b = f.querySelector('button');
+          if (b) b.textContent = '已入社 ✓';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
